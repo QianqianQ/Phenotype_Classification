@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -t 01:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=10G
+#SBATCH -J script5
+#SBATCH -o test-%j.out
+
+
+
+srun python 1_count_and_stats.py -p ../../RA/raw_data/ 
+
+
+
+srun python 2_bin_and_freq.py -i count_df.pkl samples_stats.csv -o bin_df.pkl freq_df.pkl
+
+
+
+srun python 3_TCRs_inc_dict.py -i count_dict.pkl train_y.csv -o TCR_inc_dict.pkl
+
+
+
+srun python 4_Fisher_exact_test.py -i TCR_inc_dict.pkl train_y.csv -o TCR_p_value.pkl TCRs_ranking_ind.pkl
+
+
+
+srun python 5_MAP_data.py -i TCR_p_value.pkl count_df.pkl samples_stats.csv -p 0.1 0.2 0.3 0.4 0.5 -o MAP_data.csv
