@@ -23,7 +23,7 @@ import numpy as np
 
 # Functions used in the model
 import math
-from math import log,exp
+from math import log, exp, isnan
 from scipy.special import beta,comb,digamma,betaln
 from scipy.optimize import minimize
 
@@ -305,8 +305,14 @@ class MAP_estimator:
             # log-posterior odds ratio
             F = log(N[1] + 1) - log(N[0] + 1) + betaln(prior_c0[0], prior_c0[1]) - betaln(prior_c1[0],prior_c1[1]) + \
                 betaln(k + prior_c1[0], n - k + prior_c1[1]) - betaln(k + prior_c0[0], n - k + prior_c0[1])
-            
-            post_prob_c1 = exp(F)/(1+exp(F)) # positive-class posterior probability
+
+            # positive-class posterior probability
+            # post_prob_c1 = exp(F)/(1+exp(F)) 
+            if F >= 0:
+                post_prob_c1 = 1/(1+exp(-F))
+            else:
+                post_prob_c1 = exp(F)/(1+exp(F))
+
             return post_prob_c1
         
         # Check whether the model has been trained

@@ -1,0 +1,40 @@
+#!/bin/bash
+#SBATCH -t 01:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=10G
+#SBATCH -J MAP_estimation
+#SBATCH -o MAP_estimation-%j.out
+#SBATCH --array=0-23
+
+
+case $SLURM_ARRAY_TASK_ID in
+    0) ARGS="-t 0.11" ;;
+    1) ARGS="-t 0.12" ;;
+    2) ARGS="-t 0.13" ;;
+    3) ARGS="-t 0.14" ;;
+    4) ARGS="-t 0.15" ;;
+    5) ARGS="-t 0.16" ;;
+    6) ARGS="-t 0.17" ;;
+    7) ARGS="-t 0.18" ;;
+    8) ARGS="-t 0.19" ;;
+    9) ARGS="-t 0.20" ;; 
+    10) ARGS="-t 0.21" ;;
+    11) ARGS="-t 0.22" ;;
+    12) ARGS="-t 0.23" ;;
+    13) ARGS="-t 0.24" ;;
+    14) ARGS="-t 0.25" ;;
+    15) ARGS="-t 0.26" ;;
+    16) ARGS="-t 0.27" ;;
+    17) ARGS="-t 0.28" ;;
+    18) ARGS="-t 0.29" ;;
+    19) ARGS="-t 0.30" ;;
+    20) ARGS="-t 0.35" ;;
+    21) ARGS="-t 0.40" ;;
+    22) ARGS="-t 0.45" ;;
+    23) ARGS="-t 0.50" ;;
+esac
+
+srun python MAP_estimation.py -i ../data/sample_stats_with_label.csv ../data/count_df_with_label.pkl -m 2 $ARGS 
+
+

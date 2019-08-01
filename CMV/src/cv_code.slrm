@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH -t 01:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=10G
+#SBATCH -J cv_MAP_data
+#SBATCH -o cv_MAP_data_outputs/cv_MAP_data-%j.out
+#SBATCH --array=0-640
+
+
+srun python cv_MAP_data.py -n $SLURM_ARRAY_TASK_ID
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH -t 02:30:00
+#SBATCH --mem-per-cpu=50G
+#SBATCH -J select_by_Fisher
+#SBATCH --array=70-170
+#SBATCH -o SelectKbest_outputs/SelectKBest-%a.out
+
+
+srun python select_Fisher_KBest.py -n $SLURM_ARRAY_TASK_ID
+

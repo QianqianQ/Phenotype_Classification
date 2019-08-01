@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH -t 01:30:00
+#SBATCH --mem-per-cpu=50G
+#SBATCH -J select_by_Fisher
+#SBATCH -o Fisher_outputs/Fisher_outputs-%j.out
+#SBATCH --array=0-5
+
+
+case $SLURM_ARRAY_TASK_ID in
+    0) ARGS="-t 1e-6" ;;
+    1) ARGS="-t 1e-5" ;;
+    2) ARGS="-t 1e-4" ;;
+    3) ARGS="-t 1e-3" ;;
+    4) ARGS="-t 1e-2" ;;
+    5) ARGS="-t 1e-1" ;;
+
+esac
+
+srun python select_by_Fisher.py $ARGS 
+
